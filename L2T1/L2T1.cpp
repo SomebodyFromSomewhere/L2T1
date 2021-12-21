@@ -5,16 +5,10 @@
 
 Error err;
 
-struct Node
-{
-    int sum;
-    std::vector<int> childs;
-    Node(int sum) { this->sum = sum; }
-};
-
 const int lowerBorder = 1;
 const int upperBorder = 100;
-int K;
+
+int K = 0;
 std::vector<int> cache;
 
 void readFile(std::string const filename, int& _N, int& _K) 
@@ -68,19 +62,29 @@ int f_wrap(int n)
     return F(n, cache);
 }
 
+template <typename T>
+void writeToFile(std::string filename, T val)
+{
+    std::ofstream file(filename);
+    if (!file.is_open())
+    {
+        err.addCriticalError("CANNOT OPEN FILE: " + filename, "WRITE");
+    }
+    file << val;
+}
 
 int main()
 {
     clock_t start = Util::markTime();
 
     int N = 0;
-    K = 0;
 
     readFile("INPUT.txt", N, K);
 
-    int result = f_wrap(N + 1);
+    int offset = 0;
+    int result = f_wrap(N + offset);
 
-    std::cout << std::to_string(result) << std::endl;
+    writeToFile("OUTPUT.txt", result);
 
     Util::calculateTime(start, "MAIN");
     return 0;
