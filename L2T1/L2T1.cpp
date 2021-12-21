@@ -39,10 +39,12 @@ int F(int n, std::vector<int> cache)
     if (cache.at(n) == 0)
     {
         int it = 1;
+
         if (n >= K)
         {
             it = K;
         }
+
         int res = 0;
         for (int i = it; i > 0; i--)
         {
@@ -81,7 +83,8 @@ int main()
 
     readFile("INPUT.txt", N, K);
 
-    int offset = 0;
+    int offset = 1; 
+
     int result = f_wrap(N + offset);
 
     writeToFile("OUTPUT.txt", result);
