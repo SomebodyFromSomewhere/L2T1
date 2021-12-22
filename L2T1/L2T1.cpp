@@ -2,6 +2,7 @@
 #include <fstream>
 #include "Utils/Utils.h"
 #include "Error/Error.h"
+#include "Utils/big_int.hpp" //source:https://github.com/devanshu-raj/big_int
 
 Error err;
 
@@ -9,7 +10,7 @@ const int lowerBorder = 1;
 const int upperBorder = 100;
 
 int K = 0;
-std::vector<int> cache;
+std::vector<big_int> cache;
 
 void readFile(std::string const filename, int& _N, int& _K) 
 {
@@ -32,35 +33,33 @@ void readFile(std::string const filename, int& _N, int& _K)
     }
 }
 
-int F(int n, std::vector<int> cache) 
+big_int F(int n, std::vector<big_int>& cache)
 {
-    if (n == 0) return 0;
-    if (n == 1) return 1;
     if (cache.at(n) == 0)
     {
         int it = 1;
 
-        if (n >= K)
-        {
-            it = K;
-        }
+        (n >= K) ? it = K : it = n;
 
-        int res = 0;
+        big_int res = 0;
         for (int i = it; i > 0; i--)
         {
             res += F(n - i, cache);
         }
         cache.at(n) = res;
+        std::cout << "Found value for " << n << " : " << res << std::endl;
     }
     return cache.at(n);
 }
 
-int f_wrap(int n) 
+big_int f_wrap(int n)
 {
     for (int i = 0; i < n + 1; i++)
     {
         cache.push_back(0);
     }
+    cache[0] = 1;
+    cache[1] = 1;
     return F(n, cache);
 }
 
@@ -83,11 +82,11 @@ int main()
 
     readFile("INPUT.txt", N, K);
 
-    int offset = 1; 
+    int offset = 0; 
 
-    int result = f_wrap(N + offset);
+    big_int result = f_wrap(N + offset);
 
-    writeToFile("OUTPUT.txt", result);
+    writeToFile("OUTPUT.txt", result.get());
 
     Util::calculateTime(start, "MAIN");
     return 0;
