@@ -2,7 +2,7 @@
 #include <fstream>
 #include "Utils/Utils.h"
 #include "Error/Error.h"
-#include "Utils/big_int.hpp" //source:https://github.com/devanshu-raj/big_int
+#include "Utils/big_int.hpp" //source: https://github.com/devanshu-raj/big_int
 
 Error err;
 
@@ -47,7 +47,7 @@ big_int F(int n, std::vector<big_int>& cache)
             res += F(n - i, cache);
         }
         cache.at(n) = res;
-        std::cout << "Found value for " << n << " : " << res << std::endl;
+        //std::cout << "Found value for " << n << " : " << res << std::endl;
     }
     return cache.at(n);
 }
@@ -82,9 +82,7 @@ int main()
 
     readFile("INPUT.txt", N, K);
 
-    int offset = 0; 
-
-    big_int result = f_wrap(N + offset);
+    big_int result = f_wrap(N);
 
     writeToFile("OUTPUT.txt", result.get());
 
